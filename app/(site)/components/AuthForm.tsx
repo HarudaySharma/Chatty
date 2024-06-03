@@ -38,10 +38,13 @@ const AuthForm = () => {
         },
     })
 
-    const onSubmit: SubmitHandler<FieldValues> = (data) => {
-        setIsLoading(true);
+    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        //setIsLoading(true);
         if (variant === 'REGISTER') {
-            // Fetch reister
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                body: JSON.stringify(data)
+            });
         }
         if (variant === 'LOGIN') {
             // NextAuth SignIn
