@@ -7,6 +7,8 @@ import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import Button from '@/app/components/Button';
 import AuthSocialButton from './AuthSocialButton'
 import { BsGithub, BsGoogle } from 'react-icons/bs';
+import toast from 'react-hot-toast';
+import { signIn } from 'next-auth/react';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
@@ -39,15 +41,53 @@ const AuthForm = () => {
     })
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        //setIsLoading(true);
         if (variant === 'REGISTER') {
-            const res = await fetch('/api/register', {
-                method: 'POST',
-                body: JSON.stringify(data)
-            });
+            setIsLoading(true);
+            try {
+                const res = await fetch('/api/register', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                });
+
+                if (!res.ok) {
+                    toast.error('something went wrong');
+                    return;
+                }
+                toast.error('register successfull');
+            }
+            catch (err) {
+                console.log("error catched");
+                toast.error('something went wrong');
+            }
+            finally {
+                setIsLoading(false);
+            }
+
         }
         if (variant === 'LOGIN') {
-            // NextAuth SignIn
+            setIsLoading(true);
+            try {
+                // NextAuth SignIn
+                const cb = await signIn('credentials', {
+                    ...data,
+                    redirect: false
+                })
+                if (cb?.error) {
+                    toast.error('Invalid Credentials');
+                    return;
+                }
+                if (cb?.ok) {
+                    toast.error('login successfull');
+                    return;
+                }
+            }
+            catch (err) {
+                console.log("error catched");
+                toast.error('something went wrong');
+            }
+            finally {
+                setIsLoading(false);
+            }
         }
     }
 
