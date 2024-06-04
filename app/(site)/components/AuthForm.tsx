@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Input from '@/app/components/inputs/Input';
 
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -8,13 +8,23 @@ import Button from '@/app/components/Button';
 import AuthSocialButton from './AuthSocialButton'
 import { BsGithub, BsGoogle } from 'react-icons/bs';
 import toast from 'react-hot-toast';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
 const AuthForm = () => {
     const [variant, setVariant] = useState<Variant>('LOGIN');
     const [isLoading, setIsLoading] = useState(false);
+    const session = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+        if(session.status === 'authenticated') {
+           console.log('authenticated');
+           router.push('/users');
+        }
+    }, [session.status, router]);
 
     const toggleVariant = useCallback(() => {
         if (variant === 'LOGIN') {
@@ -54,6 +64,8 @@ const AuthForm = () => {
                     return;
                 }
                 toast.error('register successfull');
+                // automatically login for new user
+                await signIn('credentials', data);
             }
             catch (err) {
                 console.log("error catched");
@@ -78,6 +90,7 @@ const AuthForm = () => {
                 }
                 if (cb?.ok) {
                     toast.error('login successfull');
+                    router.push('/users');
                     return;
                 }
             }
@@ -104,6 +117,7 @@ const AuthForm = () => {
             }
             if (cb?.ok) {
                 toast.success('login successfull');
+                router.push('/users');
                 return;
             }
         }
