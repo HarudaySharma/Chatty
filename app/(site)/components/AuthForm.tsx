@@ -91,9 +91,30 @@ const AuthForm = () => {
         }
     }
 
-    const socialAction = (action: string) => {
+    const socialAction = async (action: string) => {
         setIsLoading(true);
-        // NextAuth Social SignIn
+        try {
+            // NextAuth Social SignIn
+            const cb = await signIn(action, {
+                redirect: false
+            })
+            if (cb?.error) {
+                toast.error('Invalid Credentials');
+                return;
+            }
+            if (cb?.ok) {
+                toast.success('login successfull');
+                return;
+            }
+        }
+        catch (err) {
+            toast.error('Something went wrong');
+            return;
+        }
+        finally {
+            setIsLoading(false);
+        }
+
     }
 
     return (
