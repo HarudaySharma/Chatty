@@ -63,7 +63,7 @@ const AuthForm = () => {
                     toast.error('something went wrong');
                     return;
                 }
-                toast.error('register successfull');
+                toast.success('register successfull');
                 // automatically login for new user
                 await signIn('credentials', data);
             }
@@ -89,7 +89,7 @@ const AuthForm = () => {
                     return;
                 }
                 if (cb?.ok) {
-                    toast.error('login successfull');
+                    toast.success('login successfull');
                     router.push('/users');
                     return;
                 }
