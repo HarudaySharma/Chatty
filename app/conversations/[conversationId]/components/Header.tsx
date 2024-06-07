@@ -44,8 +44,8 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
                     className={`
                         lg:hidden
                         block
-                        text-sky-500
-                        hover:text-sky-600
+                        text-brandColor-500
+                        hover:text-brandColor-600
                         transition
                         cursor-pointer
                     `}
@@ -73,9 +73,9 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
                 size={32}
                 onClick={() => { }}
                 className={`
-                    text-sky-500
+                    text-brandColor-500
                     cursor-pointer
-                    hover:text-sky-600
+                    hover:text-brandColor-600
                     transition
                 `}
             />
