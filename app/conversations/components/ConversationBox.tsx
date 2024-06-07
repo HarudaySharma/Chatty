@@ -14,6 +14,7 @@ interface ConversationBoxProps {
     selected?: boolean
 }
 
+// NOTE: TimeStamp: 4:12:35
 const ConversationBox: React.FC<ConversationBoxProps> = ({
     data, selected
 }) => {
@@ -23,7 +24,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     const router = useRouter();
 
     const handleClick = useCallback(() => {
-        router.push(`conversations/${data.id}`);
+        router.push(`/conversations/${data.id}`);
     }, [data.id, router]);
 
     const lastMessage = useMemo(() => {
