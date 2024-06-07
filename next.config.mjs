@@ -14,10 +14,4 @@ const nextConfig = {
     }
 };
 
-export function middleware(request) {
-    console.log('Middleware called for:', request.url);
-    return NextResponse.next();
-}
-
-
 export default nextConfig;
