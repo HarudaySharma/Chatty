@@ -1,11 +1,10 @@
 import prisma from "@/app/libs/prismadb"
-import { getSession } from "next-auth/react";
+import getSession from "./getSession"
 
 async function getUsers() {
-    console.log("get Users:");
 
     const session = await getSession();
-    console.log({session});
+    console.log({ SESSIONUSER: session });
 
     if (!session?.user?.email) {
         return [];

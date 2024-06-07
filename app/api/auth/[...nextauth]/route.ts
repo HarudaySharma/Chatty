@@ -27,6 +27,8 @@ export const authOptions: AuthOptions = {
                 password: { label: 'password', type: 'password' }
             },
             async authorize(credentials) {
+                console.log('login request');
+                console.log({ credentials });
                 if (!credentials?.email || !credentials?.password) {
                     throw new Error('Invalid Credentials');
                 }
@@ -50,6 +52,15 @@ export const authOptions: AuthOptions = {
             }
         })
     ],
+    callbacks: {
+        async jwt({ token }) {
+            return token;
+        }
+        ,
+        async session({ session }) {
+            return session;
+        },
+    },
     debug: process.env.NODE_ENV === 'development',
     session: {
         strategy: 'jwt'
