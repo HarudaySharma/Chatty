@@ -20,9 +20,9 @@ const AuthForm = () => {
     const router = useRouter();
 
     useEffect(() => {
-        if(session.status === 'authenticated') {
-           console.log('authenticated');
-           router.push('/users');
+        if (session.status === 'authenticated') {
+            console.log('authenticated');
+            router.push('/users');
         }
     }, [session.status, router]);
 
@@ -51,13 +51,18 @@ const AuthForm = () => {
     })
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+        // FIX: register route not working
         if (variant === 'REGISTER') {
             setIsLoading(true);
             try {
                 const res = await fetch('/api/register', {
                     method: 'POST',
-                    body: JSON.stringify(data)
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data),
                 });
+                console.log(res);
 
                 if (!res.ok) {
                     toast.error('something went wrong');
@@ -65,7 +70,7 @@ const AuthForm = () => {
                 }
                 toast.success('register successfull');
                 // automatically login for new user
-                await signIn('credentials', data);
+                //signIn('credentials', data)
             }
             catch (err) {
                 console.log("error catched");
@@ -77,6 +82,7 @@ const AuthForm = () => {
 
         }
         if (variant === 'LOGIN') {
+            console.log('login');
             setIsLoading(true);
             try {
                 // NextAuth SignIn

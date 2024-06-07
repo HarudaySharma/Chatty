@@ -29,7 +29,7 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
             >
                 <Image
                     alt='avatar'
-                    src={user.image || '/images/placeholder.jpg'}
+                    src={user.image || '/images/placeholder.avif'}
                     fill
                 />
                 <span
@@ -40,8 +40,8 @@ const Avatar: React.FC<AvatarProps> = ({ user }) => {
                         bg-green-500
                         ring-2
                         ring-white
-                        top-0
-                        right-0
+                        top-2
+                        right-1
                         w-2
                         h-2
                         md:w-3

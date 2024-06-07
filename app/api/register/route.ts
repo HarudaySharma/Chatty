@@ -7,7 +7,8 @@ export async function POST(
 ) {
     const data = await request.json();
     const { name, email, password } = data;
-    console.log(data);
+    console.log('register request');
+    console.log({ user: data });
 
     if (!email || !name || !password) {
         return new NextResponse("Missing info", { status: 400 });
@@ -23,6 +24,7 @@ export async function POST(
                 hashedPassword,
             }
         });
+        console.log('REGISTRATION SUCCESSFULL');
         return NextResponse.json(user);
     }
     catch (err) {
