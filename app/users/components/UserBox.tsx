@@ -1,7 +1,7 @@
 'use client'
 
 import Avatar from '@/app/components/Avatar';
-import { User } from '@prisma/client';
+import { Conversation, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 import React, { useCallback, useState } from 'react'
 import toast from 'react-hot-toast';
@@ -27,8 +27,8 @@ const UserBox: React.FC<UserBoxProps> = ({ userData }) => {
                 console.error(res);
                 return;
             }
-            const data = await res.json();
-            router.push(`/conversations/${data.data.id}`);
+            const data = await res.json() as Conversation;
+            router.push(`/conversations/${data.id}`);
         }
         catch (err) {
             toast.error('something went wrong')
