@@ -21,7 +21,7 @@ async function getUsers() {
                 }
             }
         })
-        console.log({ users });
+        //console.log({ users });
         return users;
     }
     catch (err) {
