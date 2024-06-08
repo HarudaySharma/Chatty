@@ -41,7 +41,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
 
     const message = clsx(
         'text-sm w-fit overflow-hidden',
-        isOwn ? 'bg-sky-500 text-white' : 'bg-gray-100',
+        isOwn ? 'bg-brandColor-500 text-white' : 'bg-gray-100',
         data.image ? 'rounded-md p-0' : 'rounded-full py-2 px-3'
     );
 
@@ -80,6 +80,13 @@ const MessageBox: React.FC<MessageBoxProps> = ({
                             <div>{data.body}</div>
                         )}
                 </div>
+                {isLast && seenList.length > 0 && (
+                    <div
+                        className='text-xs font-light text-gray-500'
+                    >
+                        {`Seen by ${seenList}`}
+                    </div>
+                )}
             </div>
         </div>
     )

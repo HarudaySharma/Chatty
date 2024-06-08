@@ -10,5 +10,6 @@ export const config = {
     matches: [
         // protected every endpoint of user
         '/users/:path*',
+        '/conversations/:path*',
     ]
 }
