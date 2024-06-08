@@ -22,7 +22,6 @@ const getMessages = async (
                 createdAt: 'asc'
             }
         })
-
         return messages;
 
     }
