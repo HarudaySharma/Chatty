@@ -5,6 +5,7 @@ import React from 'react'
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { HiPaperAirplane, HiPhoto } from 'react-icons/hi2';
 import MessageInput from './MessageInput';
+import { CldUploadButton } from 'next-cloudinary';
 
 const Form = () => {
     const { conversationId } = useConversation();
@@ -42,6 +43,19 @@ const Form = () => {
         }
     }
 
+    const handleUpload = async (result: any) => {
+        await fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                image: result?.info?.secure_url,
+                conversationId,
+            })
+        })
+    }
+
     return (
         <div
             className={`
@@ -56,10 +70,16 @@ const Form = () => {
                 w-full
             `}
         >
-            <HiPhoto
-                size={32}
-                className='text-brandColor-500'
-            />
+            <CldUploadButton
+                options={{ maxFiles: 1 }}
+                onUpload={handleUpload}
+                uploadPreset='chatty'
+            >
+                <HiPhoto
+                    size={32}
+                    className='text-brandColor-500'
+                />
+            </CldUploadButton>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={`
@@ -87,10 +107,10 @@ const Form = () => {
                         hover:bg-brandColor-600
                     `}
                 >
-                <HiPaperAirplane
-                    size={18}
-                    className='text-white'
-                />
+                    <HiPaperAirplane
+                        size={18}
+                        className='text-white'
+                    />
                 </button>
             </form>
 
