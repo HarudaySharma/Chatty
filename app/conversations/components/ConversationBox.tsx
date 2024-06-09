@@ -14,7 +14,6 @@ interface ConversationBoxProps {
     selected?: boolean
 }
 
-// NOTE: TimeStamp: 4:12:35
 const ConversationBox: React.FC<ConversationBoxProps> = ({
     data, selected
 }) => {
