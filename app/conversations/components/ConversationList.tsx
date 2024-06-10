@@ -52,6 +52,16 @@ const ConversationList: React.FC<ConversationListProps> = ({ users, initialItems
         ))
     }
 
+    const removeConversationHandler = (conversation: FullConversationType) => {
+        setItems(curr => {
+            return [...curr.filter(conv => conv.id !== conversation.id)];
+        })
+
+        if (conversationId === conversation.id) {
+            router.push('/conversations');
+        }
+    }
+
     useEffect(() => {
         if (!pusherKey) {
             return;
@@ -60,13 +70,15 @@ const ConversationList: React.FC<ConversationListProps> = ({ users, initialItems
         pusherClient.subscribe(pusherKey);
         pusherClient.bind('conversation:new', newConversationHandler);
         pusherClient.bind('conversation:update', updateConversationHandler);
+        pusherClient.bind('conversation:remove', removeConversationHandler);
 
         return () => {
             pusherClient.unsubscribe(pusherKey);
             pusherClient.unbind('conversation:new', newConversationHandler);
             pusherClient.unbind('conversation:update', updateConversationHandler);
+            pusherClient.unbind('conversation:remove', removeConversationHandler);
         }
-    }, [pusherKey]);
+    }, [pusherKey, conversationId, router]);
 
     return (
         <>
