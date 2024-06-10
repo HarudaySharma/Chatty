@@ -6,7 +6,8 @@ import clsx from 'clsx';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
-import React from 'react'
+import React, { useState } from 'react'
+import ImageModal from './ImageModal';
 
 interface MessageBoxProps {
     data: FullMessageType;
@@ -18,6 +19,7 @@ const MessageBox: React.FC<MessageBoxProps> = ({
     isLast,
 }) => {
     const session = useSession();
+    const [imageModalOpen, setImageModalOpen] = useState(false);
 
     const isOwn = session?.data?.user?.email === data?.sender?.email;
     const seenList = (data.seen || [])
@@ -63,19 +65,27 @@ const MessageBox: React.FC<MessageBoxProps> = ({
                 <div className={message} >
                     {
                         data.image ? (
-                            <Image
-                                alt='image'
-                                height={288}
-                                width={288}
-                                src={data.image}
-                                className={`
+                            <>
+                                <ImageModal
+                                    src={data.image}
+                                    onClose={() => setImageModalOpen(false)}
+                                    isOpen={imageModalOpen}
+                                />
+                                <Image
+                                    alt='image'
+                                    height={288}
+                                    width={288}
+                                    src={data.image}
+                                    onClick={() => setImageModalOpen(true)}
+                                    className={`
                                     object-cover
                                     cursor-pointer
                                     hover:scale-110
                                     transition
                                     translate
                                 `}
-                            />
+                                />
+                            </>
                         ) : (
                             <div>{data.body}</div>
                         )}

@@ -17,7 +17,6 @@ const Select: React.FC<SelectProps> = ({
     options,
     disabled,
 }) => {
-    // NOTE: timestamp; 7:10
     return (
         <div className='z-[100]'>
             <label
