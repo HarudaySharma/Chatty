@@ -38,6 +38,20 @@ const ConversationList: React.FC<ConversationListProps> = ({ users, initialItems
         })
     }
 
+    const updateConversationHandler = (conversation: FullConversationType) => {
+        setItems(curr => (
+            curr.map(conv => {
+                if (conv.id === conversation.id) {
+                    return {
+                        ...conv,
+                        messages: conversation.messages,
+                    }
+                }
+                return conv;
+            })
+        ))
+    }
+
     useEffect(() => {
         if (!pusherKey) {
             return;
@@ -45,10 +59,12 @@ const ConversationList: React.FC<ConversationListProps> = ({ users, initialItems
 
         pusherClient.subscribe(pusherKey);
         pusherClient.bind('conversation:new', newConversationHandler);
+        pusherClient.bind('conversation:update', updateConversationHandler);
 
         return () => {
             pusherClient.unsubscribe(pusherKey);
             pusherClient.unbind('conversation:new', newConversationHandler);
+            pusherClient.unbind('conversation:update', updateConversationHandler);
         }
     }, [pusherKey]);
 
