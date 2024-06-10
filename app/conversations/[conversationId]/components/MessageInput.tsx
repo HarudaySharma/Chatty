@@ -1,7 +1,5 @@
 'use client'
 
-import Input from '@/app/components/inputs/Input';
-import { type } from 'os';
 import React from 'react';
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
@@ -13,7 +11,7 @@ interface MessageInputProps {
     required?: boolean;
     placeholder: string;
 }
-// NOTE: TimeStamp: 4:12:35
+
 const MessageInput: React.FC<MessageInputProps> = ({
     id,
     register,
