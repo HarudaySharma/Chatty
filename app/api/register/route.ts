@@ -7,7 +7,7 @@ export async function POST(
 ) {
     const data = await request.json();
     const { name, email, password } = data;
-    console.log('register request');
+    console.log('REGISTER REQUEST');
     console.log({ user: data });
 
     if (!email || !name || !password) {
@@ -17,6 +17,16 @@ export async function POST(
     const hashedPassword = await hash(password, 12);
 
     try {
+        const emailTaken = await prisma.user.findUnique({
+            where: {
+                email: email,
+            },
+        })
+
+        if(emailTaken) {
+            return new NextResponse("Email already taken", { status: 409 });
+        }
+        
         const user = await prisma.user.create({
             data: {
                 name,
@@ -31,5 +41,4 @@ export async function POST(
         console.log(err, "REGISTRATION ERROR");
         return new NextResponse("Internal Server Error", { status: 500 });
     }
-
 }

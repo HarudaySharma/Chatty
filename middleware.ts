@@ -1,4 +1,9 @@
 import { withAuth } from "next-auth/middleware";
+import { NextRequest } from "next/server";
+
+export function middleware(req: NextRequest) {
+    return;
+}
 
 export default withAuth({
     pages: {

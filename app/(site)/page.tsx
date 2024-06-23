@@ -1,7 +1,14 @@
+'use client'
+
+import { useState } from 'react'
 import Image from "next/image";
 import AuthForm from "./components/AuthForm";
 
+type Variant = 'LOGIN' | 'REGISTER';
+
 export default function Home() {
+    const [variant, setVariant] = useState<Variant>('LOGIN');
+
     return (
         <main
             className="flex min-h-full flex-col justify-center 
@@ -20,9 +27,15 @@ export default function Home() {
                 <h2
                     className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900"
                 >
-                    Sign in to your account
+                    {variant === 'LOGIN'
+                        ? 'Sign in to your account'
+                        : 'Create a new account'
+                    }
                 </h2>
-                <AuthForm/>
+                <AuthForm
+                    variant={variant}
+                    setVariant={setVariant}
+                />
             </div>
         </main>
     );

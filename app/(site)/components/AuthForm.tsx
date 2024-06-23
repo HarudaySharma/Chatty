@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react'
 import Input from '@/app/components/inputs/Input';
 
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -13,8 +13,12 @@ import { useRouter } from 'next/navigation';
 
 type Variant = 'LOGIN' | 'REGISTER';
 
-const AuthForm = () => {
-    const [variant, setVariant] = useState<Variant>('LOGIN');
+interface AuthFormProps {
+    variant: Variant;
+    setVariant: Dispatch<SetStateAction<Variant>>;
+}
+
+const AuthForm: React.FC<AuthFormProps> = ({ variant, setVariant }) => {
     const [isLoading, setIsLoading] = useState(false);
     const session = useSession();
     const router = useRouter();
@@ -51,7 +55,6 @@ const AuthForm = () => {
     })
 
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        // FIX: register route not working
         if (variant === 'REGISTER') {
             setIsLoading(true);
             try {
@@ -62,15 +65,21 @@ const AuthForm = () => {
                     },
                     body: JSON.stringify(data),
                 });
-                console.log(res);
 
                 if (!res.ok) {
+                    if (res.status === 409) {
+                        toast.error('Email already taken');
+                        return;
+                    }
                     toast.error('something went wrong');
                     return;
                 }
+
+
                 toast.success('register successfull');
+                setVariant('LOGIN');
                 // automatically login for new user
-                //signIn('credentials', data)
+                signIn('credentials', data)
             }
             catch (err) {
                 console.log("error catched");
