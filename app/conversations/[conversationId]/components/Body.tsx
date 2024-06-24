@@ -22,7 +22,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
             return;
         }
 
-        console.log({ conversationId });
+        //console.log({ conversationId });
         pusherClient.subscribe(conversationId);
         bottomRef?.current?.scrollIntoView();
 
@@ -36,7 +36,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
                 if (find(current, { id: message.id })) {
                     return current;
                 }
-                return [message, ...current];
+                return [...current, message];
             })
 
             bottomRef?.current?.scrollIntoView();

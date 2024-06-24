@@ -16,7 +16,7 @@ export async function POST(
             members,
             name
         } = body;
-        console.log({ body })
+        //console.log({ body })
 
         if (!currentUser?.id || !currentUser.email) {
             return new NextResponse('Unauthorized', { status: 401 });
